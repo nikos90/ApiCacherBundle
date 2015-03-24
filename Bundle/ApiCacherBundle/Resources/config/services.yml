@@ -1,0 +1,4 @@
+services:
+#    h_space_api_cacher.example:
+#        class: HSpace\Bundle\ApiCacherBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
