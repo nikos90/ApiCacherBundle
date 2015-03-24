@@ -1,3 +1,0 @@
-h_space_api_cacher_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: HSpaceApiCacherBundle:Default:index }
