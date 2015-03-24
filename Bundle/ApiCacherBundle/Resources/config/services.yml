@@ -1,4 +1,6 @@
 services:
-#    h_space_api_cacher.example:
-#        class: HSpace\Bundle\ApiCacherBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+     kernel.listener.eraseCache:
+             class: HSpace\Bundle\ApiCacherBundle\EventListener\EraseCacheListener
+             arguments: [ @service_container ]
+                 tags:
+                   - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
