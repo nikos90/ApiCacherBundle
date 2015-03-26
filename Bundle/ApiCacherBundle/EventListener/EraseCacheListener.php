@@ -11,32 +11,29 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class EraseCacheListener
 {
-    protected $container;
+    protected $request;
+    protected $root_cache;
 
-    public function __construct(ContainerInterface $container) // this is @service_container
+
+    public function __construct(Request $request) // this is @service_container
     {
-        $this->container = $container;
+        $this->request = $request;
+        $this->root_cache = __DIR__.'/../Cache';
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $kernel    = $event->getKernel();
-        $request   = $event->getRequest();
-        $container = $this->container;
-    }
-
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-        print_r('d');exit;
         $request = $event->getRequest();
-        $erase = $request->get('EraseCache');
+        $erase = $request->get('eraseCache');
         if(isset($erase) && $erase === 'true'){
-            print_r($erase);exit;
+            array_map('unlink', glob($this->root_cache.'/*'));
         }
-
     }
+
+
 }

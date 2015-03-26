@@ -8,7 +8,6 @@
 
 namespace HSpace\Bundle\ApiCacherBundle\Helpers;
 
-
 class Curl
 {
     protected $curl;
@@ -18,7 +17,6 @@ class Curl
     public $curl_encoding = 'gzip';
     public $curl_header = false;
     public $debug;
-
     /**
      * Initialize Curl
      */
@@ -26,7 +24,6 @@ class Curl
         $this->curl = curl_init();
         $this->setup();
     }
-
     /**
      * Default Config For Curl Resource
      */
@@ -37,7 +34,6 @@ class Curl
         curl_setopt($this->curl, CURLOPT_HEADER,$this->curl_header);
         curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, $this->ssl_verify);
     }
-
     /**
      *  Request Builder
      * @param $url
@@ -45,24 +41,15 @@ class Curl
      * @return mixed
      */
     protected function base_request($url,$fields=null){
-
         curl_setopt($this->curl,CURLOPT_URL, $url);
         if(is_array($fields)){
-            $fields_string='';
-            if(is_array($fields) && count($fields)>0) {
-                foreach ($fields as $key => $value) {
-                    $fields_string .= $key . '=' . $value . '&';
-                }
-            }
-            rtrim($fields_string, '&');
-            curl_setopt($this->curl,CURLOPT_POST, count($fields));
-            curl_setopt($this->curl,CURLOPT_POSTFIELDS, $fields_string);
-        }
 
+            curl_setopt($this->curl,CURLOPT_POST, count($fields));
+            curl_setopt($this->curl,CURLOPT_POSTFIELDS, http_build_query($fields));
+        }
         $response = curl_exec($this->curl);
         return $response;
     }
-
     /**
      * @param $url
      * @param bool $json_decode
@@ -70,12 +57,9 @@ class Curl
      */
     public function _get($url,$json_decode = false){
         $response = $this->base_request($url);
-
         if(!$response){ return $this->error('Response could not be acquired'); }
         return $this->_output($response,$json_decode);
-
     }
-
     /**
      * Execute a POST request
      * @param $url
@@ -84,14 +68,11 @@ class Curl
      * @return mixed|\stdClass
      */
     public function _post($url,$fields,$json_decode=false){
-
         if(!is_array($fields)){ return $this->error('POST request needs an array with fields to be posted'); }
         $response = $this->base_request($url,$fields);
         if(!$response){ return $this->error('Response could not be acquired'); }
-
         return $this->_output($response,$json_decode);
     }
-
     /**
      * Manipulate Response
      * @param $response
@@ -106,7 +87,6 @@ class Curl
             return $response;
         }
     }
-
     /**
      * Error Output
      * @param $msg
@@ -119,13 +99,10 @@ class Curl
         $this->debug = $error;
         return $error;
     }
-
     /**
      * Close Session
      */
     public function __destruct(){
         curl_close($this->curl);
     }
-
-
 }

@@ -1,6 +1,7 @@
 services:
      kernel.listener.eraseCache:
              class: HSpace\Bundle\ApiCacherBundle\EventListener\EraseCacheListener
-             arguments: [ @service_container ]
-                 tags:
-                   - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+             scope: request
+             arguments: ["@request"]
+             tags:
+               - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

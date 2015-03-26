@@ -1,0 +1,4 @@
+hspace_reload_cache:
+      path:     /hspace_reload_cache
+      defaults: { _controller: HSpaceApiCacherBundle:Cache:build }
+      methods:  [POST,GET]
