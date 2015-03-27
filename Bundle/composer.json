@@ -1,0 +1,26 @@
+{
+    "name": "h-space/api-cacher-bundle",
+    "description": "Api requests smart cacher for perfomance optimization",
+    "license": "MIT",
+    "keywords": ["ApiCacherBundle","ApiCacher"],
+    "authors": [
+        {
+            "name": "Nikos Aggelakis",
+            "email": "nikos_ag90@hotmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+
+            "HSpace\\Bundle\\ApiCacherBundle\\": "src"
+        },
+        "psr-0": {
+            "HSpace\\Bundle\\ApiCacherBundle\\": "src"
+        }
+
+    }
+}
